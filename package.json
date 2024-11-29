@@ -1,0 +1,17 @@
+{
+  "name": "hello-puppeteer-typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "description": "",
+  "devDependencies": {
+    "puppeteer": "^23.9.0",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.6"
+  }
+}
