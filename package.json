@@ -1,17 +1,38 @@
 {
+  "//": [
+    "Discussion on how to write comments in package.json:",
+    "https://stackoverflow.com/questions/14221579/how-do-i-add-comments-to-package-json-for-npm-install"
+  ],
   "name": "hello-puppeteer-typescript",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
   "license": "Apache-2.0",
   "description": "",
+  "//devDependencies": {
+    "@types/estree": "Required for TypeScript type resolution. Transitive dependency from eslint and rollup (via vite).",
+    "@types/json-schema": "Required for TypeScript type resolution. Transitive dependency from @eslint/core.",
+    "@types/node": "Required for TypeScript type resolution. Transitive dependency from vitest and vite.",
+    "@types/yauzl": "Required for TypeScript type resolution. Transitive dependency from puppeteer via extract-zip."
+  },
   "devDependencies": {
-    "puppeteer": "^23.9.0",
-    "typescript": "^5.7.2",
-    "vitest": "^2.1.6"
+    "@eslint/js": "^9.39.1",
+    "@types/estree": "^1.0.8",
+    "@types/json-schema": "^7.0.15",
+    "@types/node": "^24.10.1",
+    "@types/yauzl": "^2.10.3",
+    "eslint": "^9.39.1",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import-x": "^4.16.1",
+    "puppeteer": "^24.31.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.0",
+    "vitest": "^4.0.14"
   }
 }
