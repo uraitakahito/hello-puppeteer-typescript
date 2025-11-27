@@ -17,7 +17,7 @@ The noVNC can be accessed at:
 Run the following commands inside the Docker containers:
 
 ```sh
-node examples/get-title.mjs
+npx tsx examples/scrape-news.mjs
 ```
 
 You can check if you have enough memory by running this command:
