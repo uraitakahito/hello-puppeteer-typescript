@@ -72,57 +72,64 @@ export default defineConfig(
   {
     files: ['src/**/*.ts', 'test/**/*.ts'],
     rules: {
-      // 命名規則 (Google TypeScript Style Guide ベース)
+      // 命名規則 (TypeScript Handbook + JavaScript慣習 + ESLint推奨)
+      // 参考: https://typescript-eslint.io/rules/naming-convention/
+      //       https://basarat.gitbook.io/typescript/styleguide
       '@typescript-eslint/naming-convention': [
         'warn',
-        // 変数: camelCase
+        // デフォルト: camelCase、アンダースコア許容
         {
-          selector: 'variable',
-          format: ['camelCase'],
-        },
-        // boolean変数: プレフィックス必須
-        {
-          selector: 'variable',
-          types: ['boolean'],
-          format: ['camelCase'],
-          prefix: ['can', 'did', 'has', 'is', 'must', 'need', 'should', 'will'],
-        },
-        // enum/enumMember: UPPER_CASE
-        {
-          selector: ['enum', 'enumMember'],
-          format: ['UPPER_CASE'],
-        },
-        // function: camelCase
-        {
-          selector: 'function',
+          selector: 'default',
           format: ['camelCase'],
           leadingUnderscore: 'allow',
+          trailingUnderscore: 'allow',
         },
-        // accessor: camelCase
+        // 変数: camelCase + UPPER_CASE（定数用）
         {
-          selector: 'accessor',
-          format: ['camelCase'],
+          selector: 'variable',
+          format: ['camelCase', 'UPPER_CASE'],
         },
-        // parameter: camelCase
+        // destructured 変数: 外部由来を許容
+        {
+          selector: 'variable',
+          modifiers: ['destructured'],
+          format: null,
+        },
+        // パラメータ: camelCase、先頭アンダースコア許容
         {
           selector: 'parameter',
           format: ['camelCase'],
           leadingUnderscore: 'allow',
         },
-        // class: PascalCase
+        // 関数: camelCase（React コンポーネント等は PascalCase も許容）
         {
-          selector: 'class',
+          selector: 'function',
+          format: ['camelCase', 'PascalCase'],
+        },
+        // アクセサ: camelCase
+        {
+          selector: 'accessor',
+          format: ['camelCase'],
+        },
+        // 型関連: PascalCase
+        {
+          selector: 'typeLike',
           format: ['PascalCase'],
         },
-        // typeAlias: PascalCase
+        // enum: PascalCase
         {
-          selector: 'typeAlias',
+          selector: 'enum',
           format: ['PascalCase'],
         },
-        // typeParameter: PascalCase
+        // enumMember: PascalCase
         {
-          selector: 'typeParameter',
+          selector: 'enumMember',
           format: ['PascalCase'],
+        },
+        // import: camelCase + PascalCase
+        {
+          selector: 'import',
+          format: ['camelCase', 'PascalCase'],
         },
       ],
     },
