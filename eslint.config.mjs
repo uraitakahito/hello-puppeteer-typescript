@@ -9,20 +9,19 @@ export default defineConfig(
   // Global ignores
   //
   {
-    ignores: ['dist/**', 'node_modules/**', 'eslint.config.mjs'],
+    ignores: ['dist/**', 'node_modules/**', '.Trash-*/**'],
   },
 
   //
-  // Base configurations
-  //
-  eslint.configs.recommended,
-  tseslint.configs.strictTypeChecked,
-  tseslint.configs.stylisticTypeChecked,
-
-  //
-  // TypeScript parser options
+  // Base configurations (TypeScript files only)
   //
   {
+    files: ['src/**/*.ts', 'test/**/*.ts', 'vitest.config.mts'],
+    extends: [
+      eslint.configs.recommended,
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -35,6 +34,7 @@ export default defineConfig(
   // Import plugin configuration
   //
   {
+    files: ['src/**/*.ts', 'test/**/*.ts', 'vitest.config.mts'],
     plugins: {
       // @ts-expect-error Type mismatch between eslint-plugin-import-x and ESLint Plugin type
       'import-x': importXPlugin,
@@ -70,6 +70,7 @@ export default defineConfig(
   // Custom rules
   //
   {
+    files: ['src/**/*.ts', 'test/**/*.ts'],
     rules: {
       // 命名規則 (Google TypeScript Style Guide ベース)
       '@typescript-eslint/naming-convention': [
@@ -131,10 +132,8 @@ export default defineConfig(
   // Override for config files
   //
   {
-    files: ['vite.config.*[cmjt]*s', 'vitest.config.*[cmjt]*s'],
+    files: ['vitest.config.mts'],
     rules: {
-      '@typescript-eslint/naming-convention': 'off',
-      'import-x/no-extraneous-dependencies': 'off',
       'import-x/no-anonymous-default-export': 'off',
     },
   },
