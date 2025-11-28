@@ -55,9 +55,9 @@ const parseArticlesFromPage = async (page: Page): Promise<Article[]> => {
 };
 
 const scrapeHackerNews = async (options: ScrapeOptions = {}): Promise<ScrapeResult> => {
-  const { headless = true, limit = 30 } = options;
+  const { headless = true, limit = 30, slowMo = 0 } = options;
 
-  const browser = await launchBrowser(headless);
+  const browser = await launchBrowser({ headless, slowMo });
 
   try {
     const page = await browser.newPage();
