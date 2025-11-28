@@ -5,18 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Test selected Vitest",
-      "type": "node",
-      "request": "launch",
-      // program - an absolute path to the Node.js program to debug.
-      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-      "autoAttachChildProcesses": true,
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-      "args": ["run", "${relativeFile}"],
-      "smartStep": true,
-      "console": "integratedTerminal"
-    },
-    {
       // tsx - esbuildベースのTypeScript実行環境
       // Node.jsデバッガーと互換性があり、
       // ソースマップを自動生成するためステップ実行が可能
@@ -75,6 +63,18 @@
       "outFiles": ["${workspaceFolder}/dist/**/*.js"],
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "console": "integratedTerminal"
-    }
+    },
+    {
+      "name": "Test selected Vitest",
+      "type": "node",
+      "request": "launch",
+      // program - an absolute path to the Node.js program to debug.
+      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+      "autoAttachChildProcesses": true,
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "args": ["run", "${relativeFile}"],
+      "smartStep": true,
+      "console": "integratedTerminal"
+    },
   ]
 }
