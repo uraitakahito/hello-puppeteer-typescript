@@ -1,6 +1,6 @@
 import type { Page } from "puppeteer";
-import launchBrowser from "./browser";
-import type { Article, ScrapeOptions, ScrapeResult } from "./types";
+import launchBrowser from "./browser.js";
+import type { Article, ScrapeOptions, ScrapeResult } from "./types.js";
 
 const HACKER_NEWS_URL = "https://news.ycombinator.com/";
 

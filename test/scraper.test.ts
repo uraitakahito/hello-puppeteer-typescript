@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import scrapeHackerNews from "../src/scraper";
+import scrapeHackerNews from "../src/scraper.js";
 
 describe("scrapeHackerNews", () => {
   it("fetches articles from Hacker News", async () => {

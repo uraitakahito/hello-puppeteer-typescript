@@ -20,5 +20,5 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true
   },
-  "include": ["src/**/*", "test/**/*", "vitest.config.mts"]
+  "include": ["src/**/*", "test/**/*", "examples/**/*", "vitest.config.mts"]
 }

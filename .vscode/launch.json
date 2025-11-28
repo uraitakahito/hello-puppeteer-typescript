@@ -20,11 +20,11 @@
       // tsx - esbuildベースのTypeScript実行環境
       // Node.jsデバッガーと互換性があり、
       // ソースマップを自動生成するためステップ実行が可能
-      "name": "Debug Scraper Example",
+      "name": "Debug Scraper Example (tsx)",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
-      "program": "${workspaceFolder}/examples/scrape-news.mjs",
+      "program": "${workspaceFolder}/examples/scrape-news.ts",
       "cwd": "${workspaceFolder}",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "console": "integratedTerminal"
@@ -39,6 +39,21 @@
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
       "program": "${file}",
       "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      // Node.js - コンパイル済みJavaScriptをデバッグ
+      // tscでコンパイル後、dist/配下のJSファイルを実行
+      // ソースマップによりTypeScriptファイルでステップ実行可能
+      "name": "Debug Scraper Example (Node.js)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/dist/examples/scrape-news.js",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "npm: build",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "console": "integratedTerminal"
     }

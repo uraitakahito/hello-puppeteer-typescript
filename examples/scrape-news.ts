@@ -2,22 +2,23 @@
  * Hacker News Scraping Example
  *
  * Usage:
- *   npx tsx examples/scrape-news.mjs
+ *   npx tsx examples/scrape-news.ts
+ *   node dist/examples/scrape-news.js (after build)
  */
 import { writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import scrapeHackerNews from "../src/scraper.ts";
+import scrapeHackerNews from "../src/scraper.js";
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const outputDir = join(currentDir, "..", "output");
 
-const scrapeNews = async () => {
+const scrapeNews = async (): Promise<void> => {
   console.log("Scraping Hacker News...");
 
   const result = await scrapeHackerNews({ limit: 30 });
 
-  console.log(`Fetched ${result.articleCount} articles`);
+  console.log(`Fetched ${String(result.articleCount)} articles`);
 
   await mkdir(outputDir, { recursive: true });
   const outputPath = join(outputDir, "articles.json");
