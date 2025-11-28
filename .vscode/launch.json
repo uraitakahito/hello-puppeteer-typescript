@@ -5,26 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Test selected Vitest",
-      "type": "node",
-      "request": "launch",
-      // program - an absolute path to the Node.js program to debug.
-      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-      "autoAttachChildProcesses": true,
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
-      "args": ["run", "${relativeFile}"],
-      "smartStep": true,
-      "console": "integratedTerminal"
-    },
-    {
       // tsx - esbuildベースのTypeScript実行環境
       // Node.jsデバッガーと互換性があり、
       // ソースマップを自動生成するためステップ実行が可能
-      "name": "Debug Scraper Example",
+      "name": "Debug Scraper Example (tsx)",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
-      "program": "${workspaceFolder}/examples/scrape-news.mjs",
+      "program": "${workspaceFolder}/examples/scrape-news.ts",
+      // break immediately when the program launches
+      "stopOnEntry": true,
       "cwd": "${workspaceFolder}",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "console": "integratedTerminal"
@@ -37,10 +27,54 @@
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
+      // program - an absolute path to the Node.js program to debug.
       "program": "${file}",
+      // break immediately when the program launches
+      "stopOnEntry": true,
       "cwd": "${workspaceFolder}",
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "console": "integratedTerminal"
-    }
+    },
+    {
+      // Node.js - コンパイル済みJavaScriptをデバッグ
+      // tscでコンパイル後、dist/配下のJSファイルを実行
+      // ソースマップによりTypeScriptファイルでステップ実行可能
+      "name": "Debug selected TS file (Node.js)",
+      "type": "node",
+      "request": "launch",
+      // program - an absolute path to the Node.js program to debug.
+      "program": "${file}",
+      // break immediately when the program launches
+      "stopOnEntry": true,
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "npm: build",
+      "sourceMaps": true,
+      //
+      // Mapping the output location
+      //
+      // If generated (transpiled) JavaScript files do not live next to their source,
+      // you can help the VS Code debugger locate them by setting the `outFiles`
+      // attribute in the launch configuration.
+      // Whenever you set a breakpoint in the original source, VS Code tries to find
+      // the generated source by searching the files specified by glob patterns in `outFiles`.
+      // https://code.visualstudio.com/docs/typescript/typescript-debugging
+      // If VS Code can't find the generated source, you may see a message like:
+      //   Uncaught TypeError TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension ".ts"
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Test selected Vitest",
+      "type": "node",
+      "request": "launch",
+      // program - an absolute path to the Node.js program to debug.
+      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+      "autoAttachChildProcesses": true,
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "args": ["run", "${relativeFile}"],
+      "smartStep": true,
+      "console": "integratedTerminal"
+    },
   ]
 }

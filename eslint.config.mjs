@@ -16,7 +16,7 @@ export default defineConfig(
   // Base configurations (TypeScript files only)
   //
   {
-    files: ['src/**/*.ts', 'test/**/*.ts', 'vitest.config.mts'],
+    files: ['src/**/*.ts', 'test/**/*.ts', 'examples/**/*.ts'],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.strictTypeChecked,
@@ -34,7 +34,7 @@ export default defineConfig(
   // Import plugin configuration
   //
   {
-    files: ['src/**/*.ts', 'test/**/*.ts', 'vitest.config.mts'],
+    files: ['src/**/*.ts', 'test/**/*.ts', 'examples/**/*.ts'],
     plugins: {
       // @ts-expect-error Type mismatch between eslint-plugin-import-x and ESLint Plugin type
       'import-x': importXPlugin,
@@ -47,8 +47,8 @@ export default defineConfig(
     },
     rules: {
       // ES モジュールのファイル拡張子を必須化
-      // TypeScript では .ts ファイルを .js 拡張子でインポートするため、
-      // ts/tsx は 'never' に設定し、js/mjs/cjs は 'always' に設定
+      // TypeScript では .ts ファイルを .js 拡張子でインポートする
+      // tsx と Node.js 両方での実行を可能にするため、.js 拡張子を必須化
       'import-x/extensions': [
         'error',
         'always',
@@ -56,8 +56,13 @@ export default defineConfig(
           ignorePackages: true,
           checkTypeImports: true,
           pattern: {
+            // .ts/.tsx ファイルは .js 拡張子でインポートするため、
+            // ts/tsx 自体の拡張子チェックは無効化し、.js を強制
             ts: 'never',
             tsx: 'never',
+            js: 'always',
+            mjs: 'always',
+            cjs: 'always',
           },
         },
       ],
@@ -70,7 +75,7 @@ export default defineConfig(
   // Custom rules
   //
   {
-    files: ['src/**/*.ts', 'test/**/*.ts'],
+    files: ['src/**/*.ts', 'test/**/*.ts', 'examples/**/*.ts'],
     rules: {
       // 命名規則 (TypeScript Handbook + JavaScript慣習 + ESLint推奨)
       // 参考: https://typescript-eslint.io/rules/naming-convention/
@@ -135,13 +140,4 @@ export default defineConfig(
     },
   },
 
-  //
-  // Override for config files
-  //
-  {
-    files: ['vitest.config.mts'],
-    rules: {
-      'import-x/no-anonymous-default-export': 'off',
-    },
-  },
 );
