@@ -18,4 +18,5 @@ export interface ScrapeResult {
 export interface ScrapeOptions {
   headless?: boolean;
   limit?: number;
+  slowMo?: number;
 }

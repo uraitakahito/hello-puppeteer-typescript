@@ -9,9 +9,16 @@ const BROWSER_ARGS = [
   "--disable-setuid-sandbox",
 ];
 
-const launchBrowser = async (headless = true): Promise<Browser> => {
+export interface BrowserOptions {
+  headless?: boolean;
+  slowMo?: number;
+}
+
+const launchBrowser = async (options: BrowserOptions = {}): Promise<Browser> => {
+  const { headless = true, slowMo = 0 } = options;
   return puppeteer.launch({
     headless,
+    slowMo,
     args: BROWSER_ARGS,
   });
 };
