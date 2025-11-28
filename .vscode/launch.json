@@ -15,6 +15,19 @@
       "args": ["run", "${relativeFile}"],
       "smartStep": true,
       "console": "integratedTerminal"
+    },
+    {
+      // tsx - esbuildベースのTypeScript実行環境
+      // Node.jsデバッガーと互換性があり、
+      // ソースマップを自動生成するためステップ実行が可能
+      "name": "Debug Scraper Example",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
+      "program": "${workspaceFolder}/examples/scrape-news.mjs",
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "console": "integratedTerminal"
     }
   ]
 }
