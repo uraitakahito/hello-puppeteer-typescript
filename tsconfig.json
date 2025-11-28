@@ -67,5 +67,5 @@
     // Set the JavaScript language version for emitted JavaScript
     "target": "ES2023"
   },
-  "include": ["src/**/*", "test/**/*", "examples/**/*", "vitest.config.mts"]
+  "include": ["src/**/*", "test/**/*", "examples/**/*"]
 }

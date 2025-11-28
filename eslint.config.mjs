@@ -16,7 +16,7 @@ export default defineConfig(
   // Base configurations (TypeScript files only)
   //
   {
-    files: ['src/**/*.ts', 'test/**/*.ts', 'examples/**/*.ts', 'vitest.config.mts'],
+    files: ['src/**/*.ts', 'test/**/*.ts', 'examples/**/*.ts'],
     extends: [
       eslint.configs.recommended,
       tseslint.configs.strictTypeChecked,
@@ -34,7 +34,7 @@ export default defineConfig(
   // Import plugin configuration
   //
   {
-    files: ['src/**/*.ts', 'test/**/*.ts', 'examples/**/*.ts', 'vitest.config.mts'],
+    files: ['src/**/*.ts', 'test/**/*.ts', 'examples/**/*.ts'],
     plugins: {
       // @ts-expect-error Type mismatch between eslint-plugin-import-x and ESLint Plugin type
       'import-x': importXPlugin,
@@ -140,13 +140,4 @@ export default defineConfig(
     },
   },
 
-  //
-  // Override for config files
-  //
-  {
-    files: ['vitest.config.mts'],
-    rules: {
-      'import-x/no-anonymous-default-export': 'off',
-    },
-  },
 );
