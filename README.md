@@ -38,7 +38,7 @@ docker volume create $PROJECT-zsh-history
 #
 # Start the Docker container:
 #
-docker container run --add-host=puppeteer:host-gateway -d --rm --init -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent --mount type=bind,src=`pwd`,dst=/app --mount type=volume,source=$PROJECT-zsh-history,target=/zsh-volume --name $PROJECT-container $PROJECT-image
+docker container run --add-host=puppeteer-1:host-gateway --add-host=puppeteer-2:host-gateway -d --rm --init -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent --mount type=bind,src=`pwd`,dst=/app --mount type=volume,source=$PROJECT-zsh-history,target=/zsh-volume --name $PROJECT-container $PROJECT-image
 ```
 
 ## Usage
