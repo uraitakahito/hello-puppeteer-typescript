@@ -1,3 +1,8 @@
+# hello-puppeteer-typescript
+
+A Hacker News scraping tool built with TypeScript and Puppeteer.
+It connects to a remote Chromium browser running in a Docker container via Chrome DevTools Protocol (CDP) to automatically collect web page data.
+
 ## Setup
 
 ### Launching Chromium
