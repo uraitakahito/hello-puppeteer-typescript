@@ -15,8 +15,15 @@ export interface ScrapeResult {
   articles: Article[];
 }
 
+export interface BrowserOptions {
+  browserWSEndpoint?: string;
+  browserURL?: string;
+  slowMo?: number;
+}
+
 export interface ScrapeOptions {
-  headless?: boolean;
+  browserWSEndpoint?: string;
+  browserURL?: string;
   limit?: number;
   slowMo?: number;
 }

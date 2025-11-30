@@ -1,5 +1,5 @@
 import type { Page } from "puppeteer";
-import launchBrowser from "./browser.js";
+import connectBrowser from "./browser.js";
 import type { Article, ScrapeOptions, ScrapeResult } from "./types.js";
 
 const HACKER_NEWS_URL = "https://news.ycombinator.com/";
@@ -55,9 +55,14 @@ const parseArticlesFromPage = async (page: Page): Promise<Article[]> => {
 };
 
 const scrapeHackerNews = async (options: ScrapeOptions = {}): Promise<ScrapeResult> => {
-  const { headless = true, limit = 30, slowMo = 0 } = options;
+  const { browserWSEndpoint, browserURL, limit = 30, slowMo = 0 } = options;
 
-  const browser = await launchBrowser({ headless, slowMo });
+  const browserOptions = {
+    slowMo,
+    ...(browserWSEndpoint !== undefined && { browserWSEndpoint }),
+    ...(browserURL !== undefined && { browserURL }),
+  };
+  const browser = await connectBrowser(browserOptions);
 
   try {
     const page = await browser.newPage();
@@ -73,7 +78,7 @@ const scrapeHackerNews = async (options: ScrapeOptions = {}): Promise<ScrapeResu
       articles,
     };
   } finally {
-    await browser.close();
+    await browser.disconnect();
   }
 };
 
