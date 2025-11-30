@@ -77,6 +77,7 @@ const httpGetJson = <T>(hostname: string, port: number, path: string): Promise<T
       path,
       method: "GET",
       // Set Host: localhost to bypass Chromium's DNS Rebinding protection
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: { Host: "localhost" },
     };
 
