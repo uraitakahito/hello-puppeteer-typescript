@@ -6,9 +6,10 @@
  *   node dist/examples/scrape-news.js [options] (after build)
  *
  * Options:
- *   --no-headless, -H    Show browser window (default: headless)
- *   --slow-mo <ms>       Slow down Puppeteer operations by specified milliseconds
- *   --help, -h           Show this help message
+ *   --browser-url <url>   Browser remote debugging URL (default: http://localhost:9222)
+ *   --browser-ws <url>    Browser WebSocket endpoint (overrides --browser-url)
+ *   --slow-mo <ms>        Slow down Puppeteer operations by specified milliseconds
+ *   --help, -h            Show this help message
  */
 import { writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
@@ -22,14 +23,36 @@ const showHelp = (): void => {
   console.log(`Usage: npx tsx examples/scrape-news.ts [options]
 
 Options:
-  --no-headless, -H    Show browser window (default: headless)
-  --slow-mo <ms>       Slow down Puppeteer operations by specified milliseconds
-  --help, -h           Show this help message
+  --browser-url <url>   Browser remote debugging URL (default: http://localhost:9222)
+  --browser-ws <url>    Browser WebSocket endpoint (overrides --browser-url)
+  --slow-mo <ms>        Slow down Puppeteer operations by specified milliseconds
+  --help, -h            Show this help message
 `);
 };
 
-const parseArgs = (argv: string[]): { headless: boolean; slowMo: number; help: boolean } => {
+interface ParsedArgs {
+  browserURL: string;
+  browserWSEndpoint: string | undefined;
+  slowMo: number;
+  help: boolean;
+}
+
+const parseArgs = (argv: string[]): ParsedArgs => {
   const args = argv.slice(2);
+
+  let browserURL = "http://localhost:9222";
+  const browserURLIndex = args.indexOf("--browser-url");
+  const browserURLValue = args[browserURLIndex + 1];
+  if (browserURLIndex !== -1 && browserURLValue !== undefined) {
+    browserURL = browserURLValue;
+  }
+
+  let browserWSEndpoint: string | undefined;
+  const wsIndex = args.indexOf("--browser-ws");
+  const wsValue = args[wsIndex + 1];
+  if (wsIndex !== -1 && wsValue !== undefined) {
+    browserWSEndpoint = wsValue;
+  }
 
   let slowMo = 0;
   const slowMoIndex = args.indexOf("--slow-mo");
@@ -39,7 +62,8 @@ const parseArgs = (argv: string[]): { headless: boolean; slowMo: number; help: b
   }
 
   return {
-    headless: !args.includes("--no-headless") && !args.includes("-H"),
+    browserURL,
+    browserWSEndpoint,
     slowMo,
     help: args.includes("--help") || args.includes("-h"),
   };
@@ -54,18 +78,24 @@ const scrapeNews = async (): Promise<void> => {
   }
 
   console.log("Scraping Hacker News...");
-  if (!options.headless) {
-    console.log("(Browser window mode)");
+  if (options.browserWSEndpoint) {
+    console.log(`(WebSocket endpoint: ${options.browserWSEndpoint})`);
+  } else {
+    console.log(`(Browser URL: ${options.browserURL})`);
   }
   if (options.slowMo > 0) {
     console.log(`(Slow motion: ${String(options.slowMo)}ms)`);
   }
 
-  const result = await scrapeHackerNews({
+  const scrapeOptions = {
     limit: 30,
-    headless: options.headless,
+    browserURL: options.browserURL,
     slowMo: options.slowMo,
-  });
+    ...(options.browserWSEndpoint !== undefined && {
+      browserWSEndpoint: options.browserWSEndpoint,
+    }),
+  };
+  const result = await scrapeHackerNews(scrapeOptions);
 
   console.log(`Fetched ${String(result.articleCount)} articles`);
 

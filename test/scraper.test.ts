@@ -1,9 +1,18 @@
 import { describe, expect, it } from "vitest";
 import scrapeHackerNews from "../src/scraper.js";
 
+const browserURL = process.env["BROWSER_URL"] ?? "http://localhost:9222";
+const browserWSEndpoint: string | undefined = process.env["BROWSER_WS_ENDPOINT"];
+
+const createScrapeOptions = (limit: number) => ({
+  limit,
+  browserURL,
+  ...(browserWSEndpoint !== undefined && { browserWSEndpoint }),
+});
+
 describe("scrapeHackerNews", () => {
   it("fetches articles from Hacker News", async () => {
-    const result = await scrapeHackerNews({ limit: 5 });
+    const result = await scrapeHackerNews(createScrapeOptions(5));
 
     expect(result.source).toBe("https://news.ycombinator.com/");
     expect(result.scrapedAt).toBeDefined();
@@ -12,7 +21,7 @@ describe("scrapeHackerNews", () => {
   });
 
   it("returns articles with required properties", async () => {
-    const result = await scrapeHackerNews({ limit: 1 });
+    const result = await scrapeHackerNews(createScrapeOptions(1));
 
     expect(result.articles.length).toBeGreaterThan(0);
 
@@ -31,7 +40,7 @@ describe("scrapeHackerNews", () => {
   });
 
   it("respects the limit option", async () => {
-    const result = await scrapeHackerNews({ limit: 3 });
+    const result = await scrapeHackerNews(createScrapeOptions(3));
 
     expect(result.articles.length).toBeLessThanOrEqual(3);
   });
