@@ -36,9 +36,9 @@ PROJECT=$(basename `pwd`) && docker image build -t $PROJECT-image . --build-arg 
 #
 docker volume create $PROJECT-zsh-history
 #
-# Start the Docker container:
+# If you start two Chromium servers as shown in the linked reference (https://github.com/uraitakahito/puppeteer-novnc-docker/blob/3943587170ce5a991955e62e606af50a16df1edf/Dockerfile#L38-L41), it will look like this:
 #
-docker container run --add-host=puppeteer:host-gateway -d --rm --init -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent --mount type=bind,src=`pwd`,dst=/app --mount type=volume,source=$PROJECT-zsh-history,target=/zsh-volume --name $PROJECT-container $PROJECT-image
+docker container run --add-host=puppeteer-1:host-gateway --add-host=puppeteer-2:host-gateway -d --rm --init -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent --mount type=bind,src=`pwd`,dst=/app --mount type=volume,source=$PROJECT-zsh-history,target=/zsh-volume --name $PROJECT-container $PROJECT-image
 ```
 
 ## Usage
@@ -46,7 +46,7 @@ docker container run --add-host=puppeteer:host-gateway -d --rm --init -v $SSH_AU
 Run the following commands inside the Docker container:
 
 ```sh
-npx tsx examples/scrape-news.ts --browser-url http://puppeteer:9222
+npx tsx examples/scrape-news.ts --browser-url http://puppeteer-1:9222
 ```
 
 ### Watching the browser via noVNC
@@ -56,7 +56,7 @@ The noVNC can be accessed at http://localhost:6080/
 Use the `--slow-mo` option to slow down operations and observe the browser behavior:
 
 ```sh
-npx tsx examples/scrape-news.ts --browser-url http://puppeteer:9222 --slow-mo 250
+npx tsx examples/scrape-news.ts --browser-url http://puppeteer-1:9222 --slow-mo 250
 ```
 
 ## Troubleshooting
